@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TranquilCity - Professional Urban Noise & Health Platform</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="bg-animation">
+        <div class="bg-circle"></div>
+        <div class="bg-circle"></div>
+        <div class="bg-circle"></div>
+        <div class="bg-circle"></div>
+    </div>
+<div class="container">
+    <header>
+        <div class="logo" onclick="scrollToTop()">
+            <img src="Lovely_Professional_University.jpg" alt="LPU Logo" style="height:60px; border-radius:8px;">
+            <h1>TranquilCity</h1>
+        </div>
+        <button class="mobile-menu-btn" id="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+        <nav>
+            <ul id="nav-menu">
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#map-section">Live Map</a></li>
+                <li><a href="#business-model">Business Model</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#solutions">Solutions</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="alert-ticker">
+            <div class="alert-ticker-content" id="ticker-content">
+                </div>
+        </section>
+        
+        <section class="hero">
+            <h2>AI-Powered Urban Noise & Health Intelligence Platform</h2>
+            <p>Leveraging real-time data to create quieter, healthier, and more sustainable cities across India.</p>
+            <div class="hero-cta">
+                <button class="btn" id="request-demo-btn">
+                    <i class="fas fa-calendar"></i> Request Demo
+                </button>
+            </div>
+        </section>
+        
+        <div class="controls">
+            <div class="city-selector">
+                <select id="city-select">
+                    <option value="delhi">New Delhi</option>
+                    <option value="mumbai">Mumbai</option>
+                    <option value="bangalore">Bangalore</option>
+                    <option value="kolkata">Kolkata</option>
+                    <option value="chennai">Chennai</option>
+                </select>
+            </div>
+            <div class="timestamp">
+                <i class="fas fa-clock"></i> Last Updated: <span id="last-updated"></span>
+                <span class="live-indicator"></span> LIVE
+            </div>
+            <div class="view-controls">
+                <button class="view-btn active" data-view="overview">
+                    <i class="fas fa-grip-horizontal"></i> Overview
+                </button>
+                <button class="view-btn" data-view="details">
+                    <i class="fas fa-chart-bar"></i> Details
+                </button>
+            </div>
+        </div>
+        
+        <div id="dashboard" class="dashboard-grid">
+            <div class="card">
+                <h3 class="card-header"><i class="fas fa-volume-up"></i> Noise Levels</h3>
+                <div id="noiseChartContainer" class="chart-container">
+                    <canvas id="noiseChart"></canvas>
+                </div>
+                <div class="chart-controls" style="margin-top: 15px; text-align: center;">
+                    <button class="view-btn small" data-chart="noise" data-period="day">Day</button>
+                    <button class="view-btn small active" data-chart="noise" data-period="week">Week</button>
+                    <button class="view-btn small" data-chart="noise" data-period="month">Month</button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-header"><i class="fas fa-car-side"></i> Traffic Density</h3>
+                <div id="trafficChartContainer" class="chart-container">
+                    <canvas id="trafficChart"></canvas>
+                </div>
+                <div class="chart-controls" style="margin-top: 15px; text-align: center;">
+                    <button class="view-btn small" data-chart="traffic" data-period="day">Day</button>
+                    <button class="view-btn small active" data-chart="traffic" data-period="week">Week</button>
+                    <button class="view-btn small" data-chart="traffic" data-period="month">Month</button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-header"><i class="fas fa-heart-pulse"></i> Public Health Risk</h3>
+                <div id="healthChartContainer" class="chart-container">
+                    <canvas id="healthChart"></canvas>
+                </div>
+                <div class="chart-controls" style="margin-top: 15px; text-align: center;">
+                    <button class="view-btn small" data-chart="health" data-period="day">Day</button>
+                    <button class="view-btn small active" data-chart="health" data-period="week">Week</button>
+                    <button class="view-btn small" data-chart="health" data-period="month">Month</button>
+                </div>
+            </div>
+        </div>
+        
+        <section id="map-section" class="card" style="margin-top: 25px;">
+            <h3 class="card-header"><i class="fas fa-map-marked-alt"></i> Real-Time City Noise Map</h3>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">Live heatmap and noise hotspots. Click on a marker for details.</p>
+            <div id="map"></div>
+            <div class="map-legend">
+                <h4>Noise Level (dB)</h4>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: blue;"></div>
+                    <span>50-65 (Low)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: lime;"></div>
+                    <span>65-75 (Moderate)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: yellow;"></div>
+                    <span>75-85 (High)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: red;"></div>
+                    <span>85+ (Very High)</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="business-model" class="card" style="margin-top: 25px;">
+            <h3 class="card-header"><i class="fas fa-briefcase"></i> Our Business Model</h3>
+            <div class="business-model-grid">
+                <div class="business-card">
+                    <i class="fas fa-lightbulb"></i>
+                    <h4>Value Proposition</h4>
+                    <p>We provide actionable, real-time data on noise pollution and its health impacts, enabling smarter urban planning and policy-making for a better quality of life.</p>
+                </div>
+                <div class="business-card">
+                    <i class="fas fa-users"></i>
+                    <h4>Target Customers</h4>
+                    <p>Municipal Corporations, Environmental Protection Agencies, Smart City Projects, Real Estate Developers, and Urban Research Institutions.</p>
+                </div>
+                <div class="business-card">
+                    <i class="fas fa-dollar-sign"></i>
+                    <h4>Revenue Streams</h4>
+                    <p>SaaS subscriptions for city dashboards, API access for developers, customized data analysis reports, and consulting services for urban planning projects.</p>
+                </div>
+            </div>
+            
+            <h4 style="margin-top: 30px; margin-bottom: 20px;">Our Impact Metrics</h4>
+            <div class="business-model-grid" id="impact-metrics">
+                <div class="business-card">
+                    <i class="fas fa-city"></i>
+                    <h4>Cities Covered</h4>
+                    <div class="metric-value" data-target="24">0</div>
+                </div>
+                <div class="business-card">
+                    <i class="fas fa-sensor"></i>
+                    <h4>Active Sensors</h4>
+                    <div class="metric-value" data-target="1250">0</div>
+                </div>
+                <div class="business-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h4>Data Points/Day</h4>
+                    <div class="metric-value" data-target="5.8">0</div>
+                    <small>Million</small>
+                </div>
+            </div>
+        </section>
+
+        <section id="pricing" class="card" style="margin-top: 25px;">
+            <h3 class="card-header"><i class="fas fa-tags"></i> Pricing Plans</h3>
+            <div class="pricing-table">
+                <div class="pricing-card">
+                    <h4>Starter</h4>
+                    <div class="price">₹49,999<span>/month</span></div>
+                    <p>For small municipalities</p>
+                    <ul class="pricing-features">
+                        <li>Up to 50 sensors</li>
+                        <li>Basic dashboard access</li>
+                        <li>Daily data reports</li>
+                        <li>Email support</li>
+                    </ul>
+                    <button class="btn btn-outline">Get Started</button>
+                </div>
+                <div class="pricing-card featured">
+                    <h4>Professional</h4>
+                    <div class="price">₹1,49,999<span>/month</span></div>
+                    <p>For medium cities</p>
+                    <ul class="pricing-features">
+                        <li>Up to 200 sensors</li>
+                        <li>Advanced analytics</li>
+                        <li>Real-time alerts</li>
+                        <li>API access</li>
+                        <li>Priority support</li>
+                    </ul>
+                    <button class="btn">Get Started</button>
+                </div>
+                <div class="pricing-card">
+                    <h4>Enterprise</h4>
+                    <div class="price">Custom<span>pricing</span></div>
+                    <p>For large metropolitan areas</p>
+                    <ul class="pricing-features">
+                        <li>Unlimited sensors</li>
+                        <li>Custom integrations</li>
+                        <li>Predictive analytics</li>
+                        <li>Dedicated account manager</li>
+                        <li>24/7 support</li>
+                    </ul>
+                    <button class="btn btn-outline">Contact Sales</button>
+                </div>
+            </div>
+        </section>
+        
+        <footer>
+            <p>&copy; 2025 TranquilCity. All rights reserved.</p>
+            <p>Creating healthier, quieter urban environments through data intelligence.</p>
+            <p>(Bussiness Model by Students of LPU)</p>
+        </footer>
+    </main>
+</div>
+    
+    <div class="toast" id="notification-toast">
+        <i class="fas fa-bell"></i>
+        <span id="toast-message">New data available</span>
+    </div>
+
+    <div class="modal-overlay" id="demo-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close-btn">&times;</button>
+            <h3>Request a Demo</h3>
+            <form id="demo-form">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Work Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="company">Company</label>
+                    <input type="text" id="company">
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Submit Request</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
