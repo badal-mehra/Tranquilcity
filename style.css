@@ -254,8 +254,9 @@
             padding: 12px 45px 12px 20px; 
             border-radius: 25px; 
             border: 2px solid var(--primary-color); 
-            background: var(--card-bg); 
-            color: var(--text-color); 
+    color: #000; /* Sets the text color of the dropdown options to black */
+    background-color: #fff; /* Ensures the background of the options is white */
+            /* color: var(--text-color);  */
             font-size: 1.1rem; 
             cursor: pointer; 
             transition: all 0.3s; 
@@ -925,4 +926,5 @@
             .card {
                 padding: 20px;
             }
+
         }
