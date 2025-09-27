@@ -249,21 +249,23 @@
         .city-selector { 
             position: relative;
         }
-        
+
         .city-selector select { 
-            padding: 12px 45px 12px 20px; 
-            border-radius: 25px; 
-            border: 2px solid var(--primary-color); 
-    color: #000; /* Sets the text color of the dropdown options to black */
-    background-color: #fff; /* Ensures the background of the options is white */
-            /* color: var(--text-color);  */
-            font-size: 1.1rem; 
-            cursor: pointer; 
-            transition: all 0.3s; 
-            appearance: none;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-        
+    padding: 12px 45px 12px 20px; 
+    border-radius: 25px; 
+    border: 2px solid var(--primary-color); 
+    background: var(--card-bg);
+    color: var(--text-color);     
+    font-size: 1.1rem; 
+    cursor: pointer; 
+    transition: all 0.3s; 
+    appearance: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+        .city-selector select option {
+    color: #000;
+    background-color: #fff;
+}
         .city-selector:after {
             content: '\f078';
             font-family: 'Font Awesome 5 Free';
